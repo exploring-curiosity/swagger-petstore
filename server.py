@@ -22,8 +22,13 @@ async def _request(method: str, path: str, *, params: dict[str, Any] | None = No
     url = f"{BASE_URL}{path}"
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            resp = await client.request(method, url, headers=_headers(),
-                                      params=params, json=body if body else None)
+            resp = await client.request(
+                method,
+                url,
+                headers=_headers(),
+                params=params,
+                json=body if body else None
+            )
             resp.raise_for_status()
             try:
                 return json.dumps(resp.json(), indent=2)

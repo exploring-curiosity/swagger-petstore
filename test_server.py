@@ -23,12 +23,14 @@ async def test_addpet():
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("addpet", {
             "name": "doggie",
-            "photoUrls": ["http://example.com/photo.jpg"],
+            "photoUrls": ["https://example.com/dog.jpg"],
             "status": "available"
         })
-        assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        # Verify response can be parsed as JSON
-        json.loads(result)
+        assert isinstance(result, str), f"Expected string result, got {type(result)}"
+        try:
+            json.loads(result)  # Verify it's valid JSON
+        except json.JSONDecodeError:
+            pytest.fail("Result is not valid JSON")
 
 async def test_createuser():
     """Call tool 'createuser' with sample args and verify it returns a string."""
@@ -39,8 +41,11 @@ async def test_createuser():
             "lastName": "User",
             "email": "test@example.com"
         })
-        assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        json.loads(result)
+        assert isinstance(result, str), f"Expected string result, got {type(result)}"
+        try:
+            json.loads(result)
+        except json.JSONDecodeError:
+            pytest.fail("Result is not valid JSON")
 
 async def test_createuserswitharrayinput():
     """Call tool 'createuserswitharrayinput' with sample args and verify it returns a string."""
@@ -61,8 +66,11 @@ async def test_createuserswitharrayinput():
                 }
             ]
         })
-        assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        json.loads(result)
+        assert isinstance(result, str), f"Expected string result, got {type(result)}"
+        try:
+            json.loads(result)
+        except json.JSONDecodeError:
+            pytest.fail("Result is not valid JSON")
 
 async def test_createuserswithlistinput():
     """Call tool 'createuserswithlistinput' with sample args and verify it returns a string."""
@@ -83,11 +91,14 @@ async def test_createuserswithlistinput():
                 }
             ]
         })
-        assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        json.loads(result)
+        assert isinstance(result, str), f"Expected string result, got {type(result)}"
+        try:
+            json.loads(result)
+        except json.JSONDecodeError:
+            pytest.fail("Result is not valid JSON")
 
 async def main():
-    """Run all tests."""
+    """Run all test functions."""
     await test_list_tools()
     await test_tool_schemas()
     await test_addpet()
