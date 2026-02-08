@@ -4,7 +4,7 @@
   "api_version": "1.0.7",
   "base_url": "https://petstore.swagger.io/v2",
   "env_prefix": "SWAGGER_PETSTORE",
-  "tool_count": 11,
+  "tool_count": 5,
   "auth_required": true,
   "auth_schemes": [
     {
@@ -58,46 +58,10 @@
       "path": "/user/createWithList"
     },
     {
-      "name": "getinventory",
-      "safety": "read",
-      "method": "GET",
-      "path": "/store/inventory"
-    },
-    {
       "name": "search_pet",
       "safety": "read",
       "method": "GET",
       "path": "/pet/findByStatus"
-    },
-    {
-      "name": "search_user",
-      "safety": "read",
-      "method": "GET",
-      "path": "/user/{username}"
-    },
-    {
-      "name": "updatepet",
-      "safety": "write",
-      "method": "PUT",
-      "path": "/pet"
-    },
-    {
-      "name": "updatepetwithform",
-      "safety": "write",
-      "method": "POST",
-      "path": "/pet/{petId}"
-    },
-    {
-      "name": "updateuser",
-      "safety": "write",
-      "method": "PUT",
-      "path": "/user/{username}"
-    },
-    {
-      "name": "uploadfile",
-      "safety": "write",
-      "method": "POST",
-      "path": "/pet/{petId}/uploadImage"
     }
   ]
 }
