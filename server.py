@@ -35,26 +35,31 @@ async def _request(method: str, path: str, *, params: dict[str, Any] | None = No
             return json.dumps({"error": str(e)})
 
 @tool(description="Add a new pet to the store [WRITES DATA]")
-async def addpet(body: dict[str, Any]) -> str:
+async def addpet(body: dict) -> str:
     """Add a new pet to the store."""
     return await _request("POST", "/pet", body=body)
 
 @tool(description="Create user [WRITES DATA]")
-async def createuser(body: dict[str, Any]) -> str:
-    """Create user."""
+async def createuser(body: dict) -> str:
+    """Create a new user."""
     return await _request("POST", "/user", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
-async def createuserswitharrayinput(body: list[dict[str, Any]]) -> str:
-    """Creates list of users with given input array."""
+async def createuserswitharrayinput(body: list) -> str:
+    """Create users from an array."""
     return await _request("POST", "/user/createWithArray", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
-async def createuserswithlistinput(body: list[dict[str, Any]]) -> str:
-    """Creates list of users with given input array."""
+async def createuserswithlistinput(body: list) -> str:
+    """Create users from a list."""
     return await _request("POST", "/user/createWithList", body=body)
 
+@tool(description="Returns pet inventories by status")
+async def getinventory() -> str:
+    """Get inventory status."""
+    return await _request("GET", "/store/inventory")
+
 server = MCPServer("swagger-petstore")
-server.collect(addpet, createuser, createuserswitharrayinput, createuserswithlistinput)
+server.collect(addpet, createuser, createuserswitharrayinput, createuserswithlistinput, getinventory)
 if __name__ == "__main__":
     asyncio.run(server.serve())
