@@ -41,27 +41,27 @@ async def addpet(body: dict) -> str:
 
 @tool(description="Create user [WRITES DATA]")
 async def createuser(body: dict) -> str:
-    """Create user."""
+    """Create a new user."""
     return await _request("POST", "/user", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
 async def createuserswitharrayinput(body: list) -> str:
-    """Creates list of users with given input array."""
+    """Create users from array."""
     return await _request("POST", "/user/createWithArray", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
 async def createuserswithlistinput(body: list) -> str:
-    """Creates list of users with given input array."""
+    """Create users from list."""
     return await _request("POST", "/user/createWithList", body=body)
 
 @tool(description="Returns pet inventories by status")
 async def getinventory() -> str:
-    """Returns pet inventories by status."""
+    """Get inventory status."""
     return await _request("GET", "/store/inventory")
 
 @tool(description="Search or list pet with flexible filtering.")
 async def search_pet(status: str | None = None, tags: str | None = None, petId: str | None = None) -> str:
-    """Search or list pet with flexible filtering."""
+    """Search pets by status, tags, or ID."""
     if petId:
         return await _request("GET", f"/pet/{petId}")
     params = {}
@@ -73,7 +73,7 @@ async def search_pet(status: str | None = None, tags: str | None = None, petId: 
 
 @tool(description="Search or list user with flexible filtering.")
 async def search_user(username: str | None = None, password: str | None = None) -> str:
-    """Search or list user with flexible filtering."""
+    """Search users by username or login/logout."""
     if username:
         return await _request("GET", f"/user/{username}")
     if password:
@@ -82,12 +82,12 @@ async def search_user(username: str | None = None, password: str | None = None) 
 
 @tool(description="Update an existing pet [WRITES DATA]")
 async def updatepet(body: dict) -> str:
-    """Update an existing pet."""
+    """Update pet details."""
     return await _request("PUT", "/pet", body=body)
 
 @tool(description="Updates a pet in the store with form data [WRITES DATA]")
 async def updatepetwithform(petId: str, name: str | None = None, status: str | None = None) -> str:
-    """Updates a pet in the store with form data."""
+    """Update pet with form data."""
     body = {}
     if name:
         body["name"] = name
@@ -97,12 +97,12 @@ async def updatepetwithform(petId: str, name: str | None = None, status: str | N
 
 @tool(description="Updated user [WRITES DATA]")
 async def updateuser(username: str, body: dict) -> str:
-    """Updated user."""
+    """Update user details."""
     return await _request("PUT", f"/user/{username}", body=body)
 
 @tool(description="uploads an image [WRITES DATA]")
 async def uploadfile(petId: str, additionalMetadata: str | None = None, file: str | None = None) -> str:
-    """uploads an image."""
+    """Upload pet image."""
     body = {}
     if additionalMetadata:
         body["additionalMetadata"] = additionalMetadata
