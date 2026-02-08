@@ -5,7 +5,7 @@ import pytest
 from dedalus_mcp.client import MCPClient
 
 async def test_list_tools():
-    """Verify exactly 4 tools registered."""
+    """Verify exactly 4 tools are registered."""
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         tools = await client.list_tools()
         assert len(tools) == 4, f"Expected 4 tools, got {len(tools)}"
@@ -23,14 +23,12 @@ async def test_addpet():
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("addpet", {
             "name": "doggie",
-            "photoUrls": ["https://example.com/dog.jpg"],
+            "photoUrls": ["http://example.com/photo.jpg"],
             "status": "available"
         })
         assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        try:
-            json.loads(result)  # Verify it's valid JSON
-        except json.JSONDecodeError:
-            assert False, "Response is not valid JSON"
+        # Verify response can be parsed as JSON
+        json.loads(result)
 
 async def test_createuser():
     """Call tool 'createuser' with sample args and verify it returns a string."""
@@ -42,10 +40,7 @@ async def test_createuser():
             "email": "test@example.com"
         })
         assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            assert False, "Response is not valid JSON"
+        json.loads(result)
 
 async def test_createuserswitharrayinput():
     """Call tool 'createuserswitharrayinput' with sample args and verify it returns a string."""
@@ -67,10 +62,7 @@ async def test_createuserswitharrayinput():
             ]
         })
         assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            assert False, "Response is not valid JSON"
+        json.loads(result)
 
 async def test_createuserswithlistinput():
     """Call tool 'createuserswithlistinput' with sample args and verify it returns a string."""
@@ -92,10 +84,7 @@ async def test_createuserswithlistinput():
             ]
         })
         assert isinstance(result, str), f"Expected string response, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            assert False, "Response is not valid JSON"
+        json.loads(result)
 
 async def main():
     """Run all tests."""
