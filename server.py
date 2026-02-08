@@ -22,13 +22,8 @@ async def _request(method: str, path: str, *, params: dict[str, Any] | None = No
     url = f"{BASE_URL}{path}"
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            resp = await client.request(
-                method,
-                url,
-                headers=_headers(),
-                params=params,
-                json=body if body else None
-            )
+            resp = await client.request(method, url, headers=_headers(),
+                                      params=params, json=body if body else None)
             resp.raise_for_status()
             try:
                 return json.dumps(resp.json(), indent=2)
@@ -40,22 +35,22 @@ async def _request(method: str, path: str, *, params: dict[str, Any] | None = No
             return json.dumps({"error": str(e)})
 
 @tool(description="Add a new pet to the store [WRITES DATA]")
-async def addpet(body: dict) -> str:
+async def addpet(body: dict[str, Any]) -> str:
     """Add a new pet to the store."""
     return await _request("POST", "/pet", body=body)
 
 @tool(description="Create user [WRITES DATA]")
-async def createuser(body: dict) -> str:
+async def createuser(body: dict[str, Any]) -> str:
     """Create user."""
     return await _request("POST", "/user", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
-async def createuserswitharrayinput(body: list) -> str:
+async def createuserswitharrayinput(body: list[dict[str, Any]]) -> str:
     """Creates list of users with given input array."""
     return await _request("POST", "/user/createWithArray", body=body)
 
 @tool(description="Creates list of users with given input array [WRITES DATA]")
-async def createuserswithlistinput(body: list) -> str:
+async def createuserswithlistinput(body: list[dict[str, Any]]) -> str:
     """Creates list of users with given input array."""
     return await _request("POST", "/user/createWithList", body=body)
 

@@ -23,89 +23,64 @@ async def test_addpet():
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("addpet", {
             "name": "doggie",
-            "photoUrls": ["https://example.com/dog.jpg"],
-            "status": "available"
+            "photoUrls": ["http://example.com/photo.jpg"]
         })
         assert isinstance(result, str), f"Expected string result, got {type(result)}"
-        try:
-            json.loads(result)  # Verify it's valid JSON
-        except json.JSONDecodeError:
-            pytest.fail("Result is not valid JSON")
+        # Verify it's valid JSON
+        json.loads(result)
 
 async def test_createuser():
     """Call tool 'createuser' with sample args and verify it returns a string."""
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("createuser", {
             "username": "testuser",
-            "firstName": "Test",
-            "lastName": "User",
-            "email": "test@example.com"
+            "email": "user@example.com"
         })
         assert isinstance(result, str), f"Expected string result, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            pytest.fail("Result is not valid JSON")
+        json.loads(result)
 
 async def test_createuserswitharrayinput():
     """Call tool 'createuserswitharrayinput' with sample args and verify it returns a string."""
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("createuserswitharrayinput", {
             "users": [
-                {
-                    "username": "user1",
-                    "firstName": "User",
-                    "lastName": "One",
-                    "email": "user1@example.com"
-                },
-                {
-                    "username": "user2",
-                    "firstName": "User",
-                    "lastName": "Two",
-                    "email": "user2@example.com"
-                }
+                {"username": "user1", "email": "user1@example.com"},
+                {"username": "user2", "email": "user2@example.com"}
             ]
         })
         assert isinstance(result, str), f"Expected string result, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            pytest.fail("Result is not valid JSON")
+        json.loads(result)
 
 async def test_createuserswithlistinput():
     """Call tool 'createuserswithlistinput' with sample args and verify it returns a string."""
     async with await MCPClient.connect("http://127.0.0.1:8000/mcp") as client:
         result = await client.call_tool("createuserswithlistinput", {
             "users": [
-                {
-                    "username": "user3",
-                    "firstName": "User",
-                    "lastName": "Three",
-                    "email": "user3@example.com"
-                },
-                {
-                    "username": "user4",
-                    "firstName": "User",
-                    "lastName": "Four",
-                    "email": "user4@example.com"
-                }
+                {"username": "user3", "email": "user3@example.com"},
+                {"username": "user4", "email": "user4@example.com"}
             ]
         })
         assert isinstance(result, str), f"Expected string result, got {type(result)}"
-        try:
-            json.loads(result)
-        except json.JSONDecodeError:
-            pytest.fail("Result is not valid JSON")
+        json.loads(result)
 
 async def main():
     """Run all test functions."""
-    await test_list_tools()
-    await test_tool_schemas()
-    await test_addpet()
-    await test_createuser()
-    await test_createuserswitharrayinput()
-    await test_createuserswithlistinput()
-    print("All tests passed!")
+    tests = [
+        test_list_tools,
+        test_tool_schemas,
+        test_addpet,
+        test_createuser,
+        test_createuserswitharrayinput,
+        test_createuserswithlistinput
+    ]
+    
+    for test in tests:
+        try:
+            await test()
+            print(f"PASSED: {test.__name__}")
+        except Exception as e:
+            print(f"FAILED: {test.__name__} - {str(e)}")
+            raise
 
 if __name__ == "__main__":
     asyncio.run(main())
