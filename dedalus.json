@@ -58,10 +58,10 @@
       "path": "/user/createWithList"
     },
     {
-      "name": "search_pet",
+      "name": "getinventory",
       "safety": "read",
       "method": "GET",
-      "path": "/pet/findByStatus"
+      "path": "/store/inventory"
     }
   ]
 }
