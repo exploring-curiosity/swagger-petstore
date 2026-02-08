@@ -4,7 +4,7 @@
   "api_version": "1.0.7",
   "base_url": "https://petstore.swagger.io/v2",
   "env_prefix": "SWAGGER_PETSTORE",
-  "tool_count": 5,
+  "tool_count": 4,
   "auth_required": true,
   "auth_schemes": [
     {
@@ -56,12 +56,6 @@
       "safety": "write",
       "method": "POST",
       "path": "/user/createWithList"
-    },
-    {
-      "name": "getinventory",
-      "safety": "read",
-      "method": "GET",
-      "path": "/store/inventory"
     }
   ]
 }
